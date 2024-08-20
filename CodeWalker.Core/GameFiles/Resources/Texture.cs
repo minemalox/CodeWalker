@@ -635,12 +635,20 @@ namespace CodeWalker.GameFiles
             int Levels = Convert.ToInt32(parameters[3]);
             int Stride = Convert.ToInt32(parameters[4]);
 
+            TextureFormat textureFormat = (TextureFormat) format;
+
+            int bitsPerPixel = 4;
+            if (textureFormat == TextureFormat.D3DFMT_ATI1 || textureFormat == TextureFormat.D3DFMT_ATI2)
+            {
+                bitsPerPixel = 2;
+            }
+
             int fullLength = 0;
             int length = Stride * Height;
             for (int i = 0; i < Levels; i++)
             {
                 fullLength += length;
-                length /= 4;
+                length /= bitsPerPixel;
             }
 
             FullData = reader.ReadBytes(fullLength);
